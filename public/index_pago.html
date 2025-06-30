@@ -112,7 +112,7 @@
     <input type="text" id="terminalId" value="122343445">
 
     <label>ID Transacción</label>
-    <input type="text" id="transactionHostId" value="123abdcxx">
+    <input type="text" id="transactionHostId">
 
     <label>URL de Notificación</label>
     <input type="text" id="urlNotify" value="https://api.pago.com/597029414300">
@@ -166,7 +166,7 @@
           const btn = document.createElement("a");
           btn.textContent = "Consultar Estado de Pago";
           btn.className = "extra-button";
-          btn.href = `estado.html?code=${encodeURIComponent(payload.commerceCode)}&trace=${encodeURIComponent(data.traceId)}`;
+          btn.href = `index_estado.html?code=${encodeURIComponent(payload.commerceCode)}&trace=${encodeURIComponent(data.traceId)}`;
           estadoContainer.appendChild(btn);
         }
 
@@ -180,6 +180,13 @@
       const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
       return `TX-${guid}-${randomNum}`;
     }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const input = document.getElementById("transactionHostId");
+      if (input) {
+        input.value = generarTransactionId();
+      }
+    });
   </script>
 </body>
 </html>
