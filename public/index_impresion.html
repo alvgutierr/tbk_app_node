@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>POS Caja - Enviar Impresión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,7 +12,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
     }
 
@@ -20,7 +21,9 @@
       padding: 30px;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-      width: 400px;
+      width: 90%;
+      max-width: 400px;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -40,6 +43,7 @@
       margin-bottom: 15px;
       border: none;
       border-radius: 4px;
+      box-sizing: border-box;
     }
 
     textarea {
@@ -122,7 +126,7 @@
         commerceCode: document.getElementById("commerceCode").value,
         terminalId: document.getElementById("terminalId").value,
         transactionHostId: document.getElementById("transactionHostId").value,
-        message: toBase64(document.getElementById("textToPrint").value)
+        message: document.getElementById("textToPrint").value
       };
 
       const responseBox = document.getElementById("respuesta");

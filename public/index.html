@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>POS Caja - Menú Principal</title>
   <style>
     body {
@@ -14,7 +15,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
     }
 
     .pos-window {
@@ -22,13 +23,15 @@
       padding: 40px;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-      width: 350px;
+      width: 90%;
+      max-width: 400px;
       text-align: center;
+      box-sizing: border-box;
     }
 
     h1 {
       margin-bottom: 30px;
-      font-size: 22px;
+      font-size: 20px;
     }
 
     a.button {
@@ -45,6 +48,21 @@
 
     a.button:hover {
       background-color: #16a085;
+    }
+
+    @media (max-width: 480px) {
+      .pos-window {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      a.button {
+        font-size: 15px;
+        padding: 12px;
+      }
     }
   </style>
 </head>
