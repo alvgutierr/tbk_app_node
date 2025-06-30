@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta Estado de Pago</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    input, button { display: block; margin: 10px 0; padding: 8px; width: 100%; }
+    .response { white-space: pre-wrap; background: #f0f0f0; padding: 10px; margin-top: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Consultar Estado de Pago</h1>
+
+  <label>Código de Comercio</label>
+  <input type="text" id="commerceCode" value="122343445">
+
+  <label>Trace ID</label>
+  <input type="text" id="traceId" placeholder="UUID de la transacción">
+
+  <button onclick="consultarEstado()">Consultar Estado</button>
+
+  <h2>Respuesta</h2>
+  <div class="response" id="respuesta"></div>
+  <a href="index.html" class="back-button">⬅ Volver al Menú Principal</a>
+
+  <script>
+    async function consultarEstado() {
+      const commerceCode = document.getElementById("commerceCode").value.trim();
+      const traceId = document.getElementById("traceId").value.trim();
+      const responseBox = document.getElementById("respuesta");
+
+      if (!commerceCode || !traceId) {
+        responseBox.textContent = "Todos los campos son obligatorios.";
+        return;
+      }
+
+      responseBox.textContent = "Consultando...";
+
+      try {
+        const url = `api/estado/${encodeURIComponent(commerceCode)}/${encodeURIComponent(traceId)}`;
+
+        const res = await fetch(url, {
+          method: "GET",
+          headers: {
+            "X-Client-Id": "003f624fe6c7c7492eaa55970d860de5"
+          }
+        });
+
+        console.log("Status:", res.status);
+
+        if (res.status === 204) {
+          responseBox.textContent = "No hay contenido disponible para esta transacción.";
+          return;
+        }
+
+        if (!res.ok) {
+          responseBox.textContent = `Error HTTP ${res.status}`;
+          return;
+        }
+
+        const data = await res.json();
+        responseBox.textContent = JSON.stringify(data, null, 2);
+
+      } catch (error) {
+        responseBox.textContent = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>

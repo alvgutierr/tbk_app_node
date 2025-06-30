@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Impresión en POS</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    input, textarea, button { display: block; margin: 10px 0; padding: 8px; width: 100%; }
+    .response { white-space: pre-wrap; background: #f0f0f0; padding: 10px; margin-top: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Enviar Impresión al POS</h1>
+
+  <label>Código de Comercio</label>
+  <input type="text" id="commerceCode" value="597029414300">
+
+  <label>ID de Terminal</label>
+  <input type="text" id="terminalId" value="123123433">
+
+  <label>ID Transacción (transactionHostId)</label>
+  <input type="text" id="transactionHostId" value="123abdcxx">
+
+  <label>Texto a imprimir</label>
+  <textarea id="textToPrint" placeholder="Escribe el texto que se imprimirá"></textarea>
+
+  <button onclick="enviarImpresion()">Enviar a Impresión</button>
+
+  <h2>Respuesta</h2>
+  <div class="response" id="respuesta"></div>
+  <a href="index.html" class="back-button">⬅ Volver al Menú Principal</a>
+
+  <script>
+    function toBase64(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    async function enviarImpresion() {
+      //const clientId = document.getElementById("clientId").value;
+      const payload = {
+        commerceCode: document.getElementById("commerceCode").value,
+        terminalId: document.getElementById("terminalId").value,
+        transactionHostId: document.getElementById("transactionHostId").value,
+        message: toBase64(document.getElementById("textToPrint").value)
+      };
+
+      const responseBox = document.getElementById("respuesta");
+      responseBox.textContent = "Enviando...";
+
+      try {
+        const res = await fetch("api/impresion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Client-Id": "003f624fe6c7c7492eaa55970d860de5"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.status === 204) {
+          responseBox.textContent = "Operación exitosa (204 No Content)";
+          return;
+        }
+
+        const data = await res.json();
+        responseBox.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        responseBox.textContent = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
+
