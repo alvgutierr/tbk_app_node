@@ -141,6 +141,19 @@
         responseBox.textContent = `Error: ${error.message}`;
       }
     }
+
+    // Autocompletar desde URL si vienen parámetros ?code=...&trace=...
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const trace = params.get("trace");
+
+      if (code && trace) {
+        document.getElementById("commerceCode").value = code;
+        document.getElementById("traceId").value = trace;
+        consultarEstado();
+      }
+    });
   </script>
 </body>
 </html>

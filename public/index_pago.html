@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>POS Caja - Publicar Pago</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,6 +22,7 @@
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
       width: 400px;
+      max-width: 95%;
     }
 
     h1 {
@@ -68,6 +70,21 @@
       overflow-y: auto;
     }
 
+    .extra-button {
+      display: block;
+      margin-top: 15px;
+      background-color: #2980b9;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .extra-button:hover {
+      background-color: #3498db;
+    }
+
     a.back-button {
       display: block;
       margin-top: 20px;
@@ -106,6 +123,7 @@
     <button onclick="enviarPago()">Enviar Solicitud de Pago</button>
 
     <div class="response" id="respuesta"></div>
+    <div id="estadoBtnContainer"></div>
 
     <a href="index.html" class="back-button">⬅ Volver al Menú Principal</a>
   </div>
@@ -121,7 +139,11 @@
       };
 
       const responseBox = document.getElementById("respuesta");
+      const estadoContainer = document.getElementById("estadoBtnContainer");
+
+      // Reset contenido anterior
       responseBox.textContent = "Enviando...";
+      estadoContainer.innerHTML = "";
 
       try {
         const res = await fetch("api/pago", {
@@ -135,9 +157,28 @@
 
         const data = await res.json();
         responseBox.textContent = JSON.stringify(data, null, 2);
+
+        // Agregar botón si existe traceId
+        if (data.traceId) {
+          const nuevoId = generarTransactionId();
+          document.getElementById("transactionHostId").value = nuevoId;
+
+          const btn = document.createElement("a");
+          btn.textContent = "Consultar Estado de Pago";
+          btn.className = "extra-button";
+          btn.href = `estado.html?code=${encodeURIComponent(payload.commerceCode)}&trace=${encodeURIComponent(data.traceId)}`;
+          estadoContainer.appendChild(btn);
+        }
+
       } catch (error) {
         responseBox.textContent = `Error: ${error.message}`;
       }
+    }
+
+    function generarTransactionId() {
+      const guid = crypto.randomUUID();
+      const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      return `TX-${guid}-${randomNum}`;
     }
   </script>
 </body>
