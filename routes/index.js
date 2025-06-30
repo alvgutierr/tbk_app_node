@@ -69,16 +69,29 @@ router.patch('/api/cancelar/:commerceCode/:traceId', async (req, res) => {
 
 
 // Proxy: Enviar impresión
+// Proxy: Enviar impresión
 router.post('/api/impresion', async (req, res) => {
   try {
+    // Copiar el cuerpo original
+    const payload = { ...req.body };
+
+    // Codificar solo el campo 'message' en base64
+    if (typeof payload.message === 'string') {
+      payload.message = Buffer.from(payload.message, 'utf-8').toString('base64');
+    } else {
+      return res.status(400).json({ error: 'El campo "message" debe ser un string' });
+    }
+
+    // Enviar a Transbank
     const response = await fetch(`${BASE_URL}/impresion`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Client-Id': CLIENT_ID
       },
-      body: JSON.stringify(req.body)
+      body: JSON.stringify(payload)
     });
+
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (error) {
