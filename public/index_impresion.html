@@ -2,33 +2,115 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Impresión en POS</title>
+  <title>POS Caja - Enviar Impresión</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    input, textarea, button { display: block; margin: 10px 0; padding: 8px; width: 100%; }
-    .response { white-space: pre-wrap; background: #f0f0f0; padding: 10px; margin-top: 10px; border-radius: 5px; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2c3e50;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .pos-window {
+      background-color: #34495e;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #16a085;
+    }
+
+    .response {
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    a.back-button {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #7f8c8d;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    a.back-button:hover {
+      background-color: #95a5a6;
+    }
   </style>
 </head>
 <body>
-  <h1>Enviar Impresión al POS</h1>
+  <div class="pos-window">
+    <h1>🖨️ Enviar Impresión</h1>
 
-  <label>Código de Comercio</label>
-  <input type="text" id="commerceCode" value="597029414300">
+    <label>Código de Comercio</label>
+    <input type="text" id="commerceCode" value="597029414300">
 
-  <label>ID de Terminal</label>
-  <input type="text" id="terminalId" value="123123433">
+    <label>ID de Terminal</label>
+    <input type="text" id="terminalId" value="123123433">
 
-  <label>ID Transacción (transactionHostId)</label>
-  <input type="text" id="transactionHostId" value="123abdcxx">
+    <label>ID Transacción</label>
+    <input type="text" id="transactionHostId" value="123abdcxx">
 
-  <label>Texto a imprimir</label>
-  <textarea id="textToPrint" placeholder="Escribe el texto que se imprimirá"></textarea>
+    <label>Texto a imprimir</label>
+    <textarea id="textToPrint" placeholder="Escribe el texto que se imprimirá"></textarea>
 
-  <button onclick="enviarImpresion()">Enviar a Impresión</button>
+    <button onclick="enviarImpresion()">Enviar a Impresión</button>
 
-  <h2>Respuesta</h2>
-  <div class="response" id="respuesta"></div>
-  <a href="index.html" class="back-button">⬅ Volver al Menú Principal</a>
+    <div class="response" id="respuesta"></div>
+
+    <a href="index.html" class="back-button">⬅ Volver al Menú Principal</a>
+  </div>
 
   <script>
     function toBase64(str) {
@@ -36,7 +118,6 @@
     }
 
     async function enviarImpresion() {
-      //const clientId = document.getElementById("clientId").value;
       const payload = {
         commerceCode: document.getElementById("commerceCode").value,
         terminalId: document.getElementById("terminalId").value,
@@ -52,7 +133,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-Client-Id": "003f624fe6c7c7492eaa55970d860de5"
+            "X-Client-Id": "1"
           },
           body: JSON.stringify(payload)
         });
@@ -71,4 +152,3 @@
   </script>
 </body>
 </html>
-

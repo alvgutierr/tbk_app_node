@@ -1,34 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Menú Principal POS Integrado</title>
+  <title>POS Caja - Menú Principal</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f9f9f9; }
-    h1 { margin-bottom: 40px; }
-    a {
-      display: block;
-      margin: 20px auto;
-      padding: 15px 30px;
-      width: 250px;
-      text-decoration: none;
-      background-color: #007BFF;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2c3e50;
       color: white;
-      border-radius: 5px;
-      font-size: 18px;
-      transition: background-color 0.3s ease;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-    a:hover {
-      background-color: #0056b3;
+
+    .pos-window {
+      background-color: #34495e;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 350px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 22px;
+    }
+
+    a.button {
+      display: block;
+      background-color: #1abc9c;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+
+    a.button:hover {
+      background-color: #16a085;
     }
   </style>
 </head>
 <body>
-  <h1>POS Integrado - Menú Principal</h1>
+  <div class="pos-window">
+    <h1>🖥️ POS Integrado - Caja</h1>
 
-  <a href="index_pago.html">📤 Publicar Pago</a>
-  <a href="index_estado.html">🔍 Consultar Estado</a>
-  <a href="index_impresion.html">🖨️ Enviar Impresión</a>
+    <a href="index_pago.html" class="button">📤 Publicar Pago</a>
+    <a href="index_estado.html" class="button">🔍 Consultar Estado</a>
+    <a href="index_impresion.html" class="button">🖨️ Enviar Impresión</a>
+  </div>
 </body>
 </html>
