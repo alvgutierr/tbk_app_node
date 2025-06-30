@@ -173,6 +173,18 @@
       } catch (error) {
         responseBox.textContent = `Error: ${error.message}`;
       }
+
+      // Botón para reiniciar la vista
+      const resetBtn = document.createElement("a");
+      resetBtn.textContent = "Iniciar Nuevo Pago";
+      resetBtn.className = "extra-button";
+      resetBtn.href = "#";
+      resetBtn.onclick = (e) => {
+        e.preventDefault();
+        location.reload();
+      };
+      
+      estadoContainer.appendChild(resetBtn);
     }
 
     function generarTransactionId() {
