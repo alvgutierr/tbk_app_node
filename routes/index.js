@@ -45,6 +45,29 @@ router.get('/api/estado/:commerceCode/:traceId', async (req, res) => {
   }
 });
 
+// Proxy: Cancelar pago
+router.patch('/api/cancelar/:commerceCode/:traceId', async (req, res) => {
+  try {
+    const { commerceCode, traceId } = req.params;
+    const response = await fetch(`${BASE_URL}/cancelar/${commerceCode}/${traceId}`, {
+      method: 'PATCH',
+      headers: {
+        'X-Client-Id': CLIENT_ID
+      }
+    });
+
+    if (response.status === 204) {
+      res.status(204).send(); // Sin contenido
+    } else {
+      const data = await response.json();
+      res.status(response.status).json(data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 // Proxy: Enviar impresión
 router.post('/api/impresion', async (req, res) => {
   try {

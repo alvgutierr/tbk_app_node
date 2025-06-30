@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>POS Caja - Cancelar Pago</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2c3e50;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .pos-window {
+      background-color: #34495e;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+    }
+
+    .response {
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    a.back-button {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #7f8c8d;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    a.back-button:hover {
+      background-color: #95a5a6;
+    }
+  </style>
+</head>
+<body>
+  <div class="pos-window">
+    <h1>❌ Cancelar Pago</h1>
+
+    <label>Código de Comercio</label>
+    <input type="text" id="commerceCode" value="122343445">
+
+    <label>Trace ID</label>
+    <input type="text" id="traceId" placeholder="UUID de la transacción">
+
+    <button onclick="cancelarPago()">Cancelar Transacción</button>
+
+    <div class="response" id="respuesta"></div>
+
+    <a href="index.html" class="back-button">⬅ Volver al Menú Principal</a>
+  </div>
+
+  <script>
+    async function cancelarPago() {
+      const commerceCode = document.getElementById("commerceCode").value.trim();
+      const traceId = document.getElementById("traceId").value.trim();
+      const responseBox = document.getElementById("respuesta");
+
+      if (!commerceCode || !traceId) {
+        responseBox.textContent = "Todos los campos son obligatorios.";
+        return;
+      }
+
+      responseBox.textContent = "Enviando solicitud de cancelación...";
+
+      try {
+        const url = `/api/cancelar/${encodeURIComponent(commerceCode)}/${encodeURIComponent(traceId)}`;
+
+        const res = await fetch(url, {
+          method: "PATCH",
+          headers: {
+            "X-Client-Id": "003f624fe6c7c7492eaa55970d860de5"
+          }
+        });
+
+        if (res.status === 204 || res.status === 200) {
+          responseBox.textContent = "Transacción cancelada exitosamente.";
+        } else {
+          const data = await res.json();
+          responseBox.textContent = JSON.stringify(data, null, 2);
+        }
+
+      } catch (error) {
+        responseBox.textContent = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
