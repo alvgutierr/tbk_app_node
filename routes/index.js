@@ -71,7 +71,7 @@ router.patch('/api/cancelar/:commerceCode/:traceId', async (req, res) => {
 
 
 // Proxy: Enviar impresión
-router.post('/api/impresion', upload.single('message'), async (req, res) => {
+router.post('/api/impresion', upload.single('file'), async (req, res) => {
   try {
     const { type, commerceCode, terminalId, transactionHostId } = req.body;
 
@@ -102,7 +102,7 @@ router.post('/api/impresion', upload.single('message'), async (req, res) => {
       message: encodedMessage
     };
 
-    console.log('[TBK REQUEST] =>', JSON.stringify(payload, null, 2));
+    console.log('[TBK REQUEST encodedMessage] =>', encodedMessage);
 
     const response = await fetch(`${BASE_URL}/impresion`, {
       method: 'POST',
