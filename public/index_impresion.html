@@ -98,7 +98,7 @@
     <h1>🖨️ Enviar Impresión</h1>
 
     <label>Código de Comercio</label>
-    <input type="text" id="commerceCode" value="597029414300">
+    <input type="text" id="commerceCode" value="597029414340">
 
     <label>ID de Terminal</label>
     <input type="text" id="terminalId" value="123123433">
@@ -107,7 +107,10 @@
     <input type="text" id="transactionHostId" value="123abdcxx">
 
     <label>Texto a imprimir</label>
-    <textarea id="textToPrint" placeholder="Escribe el texto que se imprimirá"></textarea>
+    <textarea id="textToPrint" placeholder="Escribe el texto que se imprimirá" rows="4"></textarea>
+
+    <label>O subir una imagen</label>
+    <input type="file" id="imageFile" accept="image/*">
 
     <button onclick="enviarImpresion()">Enviar a Impresión</button>
 
@@ -117,40 +120,59 @@
   </div>
 
   <script>
-    function toBase64(str) {
-      return btoa(unescape(encodeURIComponent(str)));
-    }
-
     async function enviarImpresion() {
-      const payload = {
-        commerceCode: document.getElementById("commerceCode").value,
-        terminalId: document.getElementById("terminalId").value,
-        transactionHostId: document.getElementById("transactionHostId").value,
-        message: document.getElementById("textToPrint").value
-      };
-
+      const text = document.getElementById("textToPrint").value.trim();
+      const imageFile = document.getElementById("imageFile").files[0];
       const responseBox = document.getElementById("respuesta");
-      responseBox.textContent = "Enviando...";
+
+      const commerceCode = document.getElementById("commerceCode").value;
+      const terminalId = document.getElementById("terminalId").value;
+      const transactionHostId = document.getElementById("transactionHostId").value;
+
+      responseBox.textContent = "Procesando...";
+
+      if (text && imageFile) {
+        responseBox.textContent = "❌ No puedes enviar texto e imagen al mismo tiempo.";
+        return;
+      }
+
+      if (!text && !imageFile) {
+        responseBox.textContent = "❌ Debes ingresar texto o subir una imagen.";
+        return;
+      }
 
       try {
+        const formData = new FormData();
+        formData.append("commerceCode", commerceCode);
+        formData.append("terminalId", terminalId);
+        formData.append("transactionHostId", transactionHostId);
+
+        if (imageFile) {
+          formData.append("type", "image");
+          formData.append("file", imageFile); // campo que leerás en el backend
+        } else {
+          formData.append("type", "text");
+          formData.append("message", text); // texto simple
+        }
+
         const res = await fetch("api/impresion", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
             "X-Client-Id": "1"
+            // ❌ NO poner Content-Type aquí, fetch + FormData lo manejan automáticamente
           },
-          body: JSON.stringify(payload)
+          body: formData
         });
 
         if (res.status === 204) {
-          responseBox.textContent = "Operación exitosa (204 No Content)";
+          responseBox.textContent = "✅ Operación exitosa (204 No Content)";
           return;
         }
 
         const data = await res.json();
         responseBox.textContent = JSON.stringify(data, null, 2);
       } catch (error) {
-        responseBox.textContent = `Error: ${error.message}`;
+        responseBox.textContent = `❌ Error: ${error.message}`;
       }
     }
   </script>

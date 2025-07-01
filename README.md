@@ -1,6 +1,6 @@
 # POS Integrado - Proxy Node.js
 
-Este proyecto es un **proxy API** construido con Node.js y Express para consumir de forma segura la API POS Integrado de Transbank desde frontend web, evitando problemas de CORS.
+Este proyecto es un **proxy API** construido con Node.js y Express para consumir de forma segura la API Integrado desde frontend web, evitando problemas de CORS.
 
 ## 🚀 Características
 
