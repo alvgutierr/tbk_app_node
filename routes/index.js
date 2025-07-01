@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const multer = require('multer');
+const upload = multer();
 
 const BASE_URL = 'https://gw.api.qa2.tbk.cl/transbank/clientes/api/v1/posi';
 const CLIENT_ID = '003f624fe6c7c7492eaa55970d860de5';
@@ -69,27 +71,28 @@ router.patch('/api/cancelar/:commerceCode/:traceId', async (req, res) => {
 
 
 // Proxy: Enviar impresión
-router.post('/api/impresion', async (req, res) => {
+router.post('/api/impresion', upload.single('message'), async (req, res) => {
   try {
-    const { type, message, commerceCode, terminalId, transactionHostId } = req.body;
+    const { type, commerceCode, terminalId, transactionHostId } = req.body;
 
-    if (!type || !message) {
+    if (!type || !req.body || (!req.body.message && !req.file)) {
       return res.status(400).json({ error: 'Se requiere "type" y "message"' });
     }
 
-    let encodedMessage;
+    let encodedMessage = '';
 
     if (type === 'text') {
-      encodedMessage = Buffer.from(message, 'utf-8').toString('base64');
-
+      if (typeof req.body.message !== 'string') {
+        return res.status(400).json({ error: 'message debe ser texto si type es "text"' });
+      }
+      encodedMessage = Buffer.from(req.body.message, 'utf-8').toString('base64');
     } else if (type === 'image') {
-      // Si llega como dataURL, quitar prefijo antes de codificar
-      const base64Data = message.includes(',') ? message.split(',')[1] : message;
-      const buffer = Buffer.from(base64Data, 'base64');
-      encodedMessage = buffer.toString('base64');
-
+      if (!req.file) {
+        return res.status(400).json({ error: 'No se recibió archivo en "message"' });
+      }
+      encodedMessage = req.file.buffer.toString('base64');
     } else {
-      return res.status(400).json({ error: 'El campo "type" debe ser "text" o "image"' });
+      return res.status(400).json({ error: 'type debe ser "text" o "image"' });
     }
 
     const payload = {
@@ -99,7 +102,7 @@ router.post('/api/impresion', async (req, res) => {
       message: encodedMessage
     };
 
-    console.log('[TBK REQUEST] Enviando a TBK:', JSON.stringify(payload, null, 2));
+    console.log('[TBK REQUEST] =>', JSON.stringify(payload, null, 2));
 
     const response = await fetch(`${BASE_URL}/impresion`, {
       method: 'POST',
@@ -111,10 +114,9 @@ router.post('/api/impresion', async (req, res) => {
     });
 
     const data = await response.json();
-    return res.status(response.status).json(data);
-
+    res.status(response.status).json(data);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 module.exports = router;
