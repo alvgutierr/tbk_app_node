@@ -1,0 +1,206 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #e9ecf4;
+  margin: 0;
+}
+
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 6vw;
+}
+
+.custom-navbar {
+  background-color: transparent;
+  border-bottom: 0.2vw solid #D5006C;
+  width: 100vw;
+  padding-top: 1vw;
+  padding-bottom: 1vw;
+  z-index: 1030;
+}
+
+.titulo-navbar {
+  font-size: 1.67vw;
+  font-weight: 500;
+  color: #000;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.formulario {
+  width: 38.5vw;
+  background-color: white;
+  border-radius: 0.5vw;
+  box-shadow: 0 0 0.3vw rgba(0, 0, 0, 0.1);
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+.logo {
+  width: 20.8vw;
+  height: auto;
+  margin-bottom: 2vw;
+}
+
+.campo-label {
+  font-size: 1.67vw;
+  color: #000;
+  font-weight: 500;
+}
+
+.campo-input {
+  font-size: 1.25vw;
+  width: 28.89vw; /* 416px */
+  height: 5vw;     /* 72px */
+  box-sizing: border-box;
+  padding: 0.6vw 1vw;
+}
+
+.icono-terminal {
+  width: 1.8vw;
+  height: auto;
+}
+.dropdown {
+  width: 28.89vw !important;
+}
+.dropdown-menu {
+  width: 100% !important; 
+  position: absolute !important;
+  z-index: 9999 !important;
+  overflow: visible !important;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0.2vw 0.6vw rgba(0, 0, 0, 0.1);
+}
+
+.btn-pagar,
+.btn-imprimir {
+  width: 17.57vw; /* 253px */
+  height: 5vw;    /* 72px */
+  font-size: 1.67vw;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.btn-pagar {
+  background-color: #D5006C;
+  color: #fff;
+  border: none;
+}
+
+.btn-imprimir {
+  background-color: #fff;
+  color: #D5006C;
+  border: 0.15vw solid #D5006C;
+}
+.btn-pagar:hover {
+  background-color: #D5006C; 
+  color: #fff;
+}
+
+.btn-imprimir:hover {
+  background-color: #fff;
+  color: #D5006C;
+  border-color: #D5006C;
+}
+
+
+.modal-envio {
+  background-color: white;
+  border-radius: 1vw;
+  padding: 2vw;
+  border: none;
+  box-shadow: 0 0.3vw 0.8vw rgba(0, 0, 0, 0.2);
+}
+
+.gif-enviando {
+  width: 5vw;
+  height: auto;
+}
+
+.texto-enviando {
+  font-size: 1.5vw;
+  font-weight: 500;
+  color: #000;
+}
+
+/*Comprobante de venta*/
+.modal-comprobante {
+  background-color: white;
+  border-radius: 1vw;
+  padding: 2vw;
+  border: none;
+  box-shadow: 0 0.3vw 0.8vw rgba(0, 0, 0, 0.2);
+}
+
+.titulo-modal-comprobante {
+  font-size: 2vw;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+  
+}
+
+.textarea-comprobante {
+  font-size: 1.2vw;
+  font-family: 'Roboto', sans-serif;
+  resize: vertical;
+  min-height: 25vw;
+  
+}
+
+/* Solo imprime el contenido del textarea del comprobante */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #textoComprobante {
+    visibility: visible !important;
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    padding: 2vw;
+    font-size: 1.2vw;
+    font-family: 'Roboto', sans-serif;
+    color: #000;
+    background: white;
+    border: none;
+    white-space: pre-wrap;
+    overflow: visible;
+  }
+}
+
+
+
+
+
+/* Eliminar spinners en Webkit */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Eliminar flechas en Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.input-alert {
+  box-shadow: 0 0 0 0.2rem rgba(213, 0, 108, 0.5); /* mismo color de marca */
+  outline: none;
+  border-color: #D5006C !important;
+}

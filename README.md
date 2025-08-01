@@ -27,7 +27,7 @@ npm install
 Crea un archivo `.env` en la raíz con:
 
 ```
-CLIENT_ID=tu_client_id_entregado_por_transbank
+CLIENT_ID=tu_client_id
 ```
 
 ## ▶ Uso local
