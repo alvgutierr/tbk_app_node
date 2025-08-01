@@ -52,7 +52,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content modal-envio">
         <div class="modal-body text-center">
-          <img src="./images/procesando.gif" alt="Enviando..." class="gif-enviando mb-3">
+          <img src="./images/Procesando.gif" alt="Enviando..." class="gif-enviando mb-3">
           <p class="texto-enviando">Enviando...</p>
         </div>
       </div>
@@ -162,7 +162,7 @@ OPERACION: 000237             AUTORIZACION: 006214
         const modal = new bootstrap.Modal(document.getElementById('modalEnviando'));
         modal.show();
 
-        const res = await fetch("/api/pago", {
+        const res = await fetch("api/pago", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -232,7 +232,7 @@ OPERACION: 000237             AUTORIZACION: 006214
       console.log("[Payload impresión]", payload);
 
       try {
-        const res = await fetch("/api/impresion", {
+        const res = await fetch("api/impresion", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
