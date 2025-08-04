@@ -171,10 +171,46 @@ OPERACION: 000237             AUTORIZACION: 006214
           body: JSON.stringify(payload)
         });
 
-        const data = await res.json();
-        modal.hide();
+        //const data = await res.json();
+        //-----------        
+         if (res.status === 200) {
+          document.querySelector(".texto-enviando").innerText = "✅ Solicitud enviada correctamente.";
+          // Crear y agregar el botón "Aceptar"
+            const btnAceptar = document.createElement("button");
+            btnAceptar.className = "btn btn-primary mt-3";
+            btnAceptar.innerText = "Aceptar";
+            btnAceptar.onclick = () => location.reload();
 
-        alert("Respuesta:\n" + JSON.stringify(data, null, 2));
+            const modalBody = document.querySelector("#modalEnviando .modal-body");
+            if (!modalBody.querySelector(".btn-secondary")) {
+              modalBody.appendChild(btnAceptar);
+            }
+          //modal.hide();
+        } else {          
+          const data = await res.json();
+          
+          if (res.status === 422) {            
+            const detalleError = data?.errors?.[0]?.detail || "❌ Error 422 desconocido.";
+            document.querySelector(".texto-enviando").innerText = `⚠️ ${detalleError}`;
+            // Crear y agregar el botón "Aceptar"
+            const btnAceptar = document.createElement("button");
+            btnAceptar.className = "btn btn-primary mt-3";
+            btnAceptar.innerText = "Aceptar";
+            btnAceptar.onclick = () => location.reload();
+
+            const modalBody = document.querySelector("#modalEnviando .modal-body");
+            if (!modalBody.querySelector(".btn-secondary")) {
+              modalBody.appendChild(btnAceptar);
+            }
+
+            //modal.hide();
+          } else{
+              alert("Respuesta:\n" + JSON.stringify(data, null, 2));
+          }
+        }
+        //-----------
+
+
       } catch (err) {
         alert("Error al procesar el pago:\n" + err.message);
       }
@@ -242,13 +278,14 @@ OPERACION: 000237             AUTORIZACION: 006214
         });
 
         if (res.status === 204) {
-          alert("✅ Comprobante enviado correctamente");
-           modalComprobante.hide();
+          alert("✅ Solicitud enviada correctamente.");
+          modalComprobante.hide();
         } else {          
           const data = await res.json();
-          alert("Respuesta:\n" + JSON.stringify(data, null, 2));
+          //alert("Respuesta:\n" + JSON.stringify(data, null, 2));
           if (res.status === 200) {
-             modalComprobante.hide();
+            alert("✅ Solicitud enviada correctamente.");            
+            modalComprobante.hide();
           } 
         }
       } catch (err) {
