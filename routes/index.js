@@ -93,7 +93,7 @@ router.patch('/api/cancelar/:commerceCode/:traceId', async (req, res) => {
 // Proxy: Enviar impresión
 router.post('/api/impresion', upload.single('file'), async (req, res) => {
   try {
-    const { type, commerceCode, terminalId, transactionHostId } = req.body;
+    let { type, commerceCode, terminalId, transactionHostId } = req.body;
 
     if (!type || !req.body || (!req.body.message && !req.file)) {
       return res.status(400).json({ error: 'Se requiere "type" y "message"' });
@@ -114,15 +114,15 @@ router.post('/api/impresion', upload.single('file'), async (req, res) => {
     } else {
       return res.status(400).json({ error: 'type debe ser "text" o "image"' });
     }
-
+    commerceCode = COMMERCE_CODE;
     const payload = {
-      COMMERCE_CODE,
+      commerceCode,
       terminalId,
       transactionHostId,
       message: encodedMessage
     };
 
-    console.log('[TBK REQUEST encodedMessage] =>', encodedMessage);
+    console.log('[TBK REQUEST impresion] =>', payload);
 
     const response = await fetch(`${BASE_URL}/impresion`, {
       method: 'POST',
@@ -134,6 +134,7 @@ router.post('/api/impresion', upload.single('file'), async (req, res) => {
     });
 
     const data = await response.json();
+    console.log('[TBK RESPONSE impresion] =>', data);
     res.status(response.status).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
