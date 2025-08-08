@@ -113,7 +113,10 @@ OPERACION: 000237             AUTORIZACION: 006214
 
 <script src="./socket.io/socket.io.js"></script>
 <script>
-  const socket = io(); // mismo host/puerto
+  //const socket = io(); // mismo host/puerto
+  const socket = io({
+    path: '/tbk-app-node/socket.io'   // <- clave
+  });
   socket.on('pago_notificacion', (data) => {
     // acá prendes tu modal/toast diciendo "Llegó notificación de PAGO"
     console.log('Notificación:', data);
