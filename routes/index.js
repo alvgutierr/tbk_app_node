@@ -11,6 +11,13 @@ const upload = multer();
 const BASE_URL = 'https://api.transbank.cl/transbank/clientes/api/v1/posi';
 const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
 
+//const BASE_URL = 'http://localhost:6469/api/v1/posi';
+//const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
+
+const COMMERCE_CODE = "597001600134";
+//const URL_NOTIFY = "http://localhost:3000/api/notify";
+const URL_NOTIFY = "https://app-demo-xsbho.ondigitalocean.app/tbk-app-node/api/notify";
+
 router.get('/', (req, res) => {
   console.log(BASE_URL);
   res.redirect('/index.html');
@@ -20,13 +27,21 @@ router.get('/', (req, res) => {
 router.post('/api/pago', async (req, res) => {
   try {
     console.log(BASE_URL);
+    console.log(JSON.stringify(req.body));
+
+    const newBody = {
+      ...req.body,
+      commerceCode: COMMERCE_CODE,
+      urlNotify: URL_NOTIFY
+    };
+    console.log(newBody);
     const response = await fetch(`${BASE_URL}/pago`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Client-Id': CLIENT_ID
       },
-      body: JSON.stringify(req.body)
+      body: JSON.stringify(newBody)
     });
     const data = await response.json();
     res.status(response.status).json(data);
@@ -101,7 +116,7 @@ router.post('/api/impresion', upload.single('file'), async (req, res) => {
     }
 
     const payload = {
-      commerceCode,
+      COMMERCE_CODE,
       terminalId,
       transactionHostId,
       message: encodedMessage
@@ -124,4 +139,22 @@ router.post('/api/impresion', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// === NUEVO: endpoint que recibe notificaciones y las "broadcast" por socket ===
+router.post('/api/notify', (req, res) => {
+  console.log('[NOTIFICACIÓN RECIBIDA]', req.body);
+  const io = req.app.get('io');
+  const payload = req.body || {};
+
+  // Emitir a todos los clientes conectados
+  io.emit('pago_notificacion', {
+    at: new Date().toISOString(),
+    ...payload
+  });
+
+  // Responder inmediatamente a quien nos notificó
+  res.status(200).json({ ok: true });
+});
+
+
 module.exports = router;

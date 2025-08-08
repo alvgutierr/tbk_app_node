@@ -35,6 +35,8 @@
               <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="./images/icono1.png" alt="B51" class="icono-terminal me-2"> B51 - 51122323441</a></li>
               <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="./images/icono1.png" alt="C52" class="icono-terminal me-2"> C52 - 52122323442</a></li>
               <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="./images/icono1.png" alt="C53" class="icono-terminal me-2"> C53 - 53122323443</a></li>
+              <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="./images/icono1.png" alt="C53" class="icono-terminal me-2"> C53 - 53122323444</a></li>
+              <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="./images/icono1.png" alt="C53" class="icono-terminal me-2"> C53 - 53122323445</a></li>
             </ul>
           </div>
         </div>
@@ -108,6 +110,19 @@ OPERACION: 000237             AUTORIZACION: 006214
     const COMMERCE_CODE = "597029414340";
     const URL_NOTIFY = "https://api.pago.com/597029414300";
   </script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io(); // mismo host/puerto
+  socket.on('pago_notificacion', (data) => {
+    // acá prendes tu modal/toast diciendo "Llegó notificación de PAGO"
+    console.log('Notificación:', data);
+    // ejemplo rápido:
+    document.querySelector('.texto-enviando').innerText = '📨 Notificación de PAGO:\n'+JSON.stringify(data) ;
+    const modal = new bootstrap.Modal(document.getElementById('modalEnviando'));
+    modal.show();
+  });
+</script>
 
   <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
