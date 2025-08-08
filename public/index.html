@@ -111,7 +111,7 @@ OPERACION: 000237             AUTORIZACION: 006214
     const URL_NOTIFY = "https://api.pago.com/597029414300";
   </script>
 
-<script src="/socket.io/socket.io.js"></script>
+<script src="./socket.io/socket.io.js"></script>
 <script>
   const socket = io(); // mismo host/puerto
   socket.on('pago_notificacion', (data) => {
