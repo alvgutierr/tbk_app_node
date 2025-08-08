@@ -115,13 +115,14 @@ OPERACION: 000237             AUTORIZACION: 006214
 <script>
   //const socket = io(); // mismo host/puerto
   const socket = io({
-    path: '/tbk-app-node/socket.io'   // <- clave
+    path: '/tbk-app-node/socket.io'
   });
   socket.on('pago_notificacion', (data) => {
-    // acá prendes tu modal/toast diciendo "Llegó notificación de PAGO"
     console.log('Notificación:', data);
-    // ejemplo rápido:
-    document.querySelector('.texto-enviando').innerText = '📨 Notificación de PAGO:\n'+JSON.stringify(data) ;
+    //document.querySelector('.texto-enviando').innerText = '📨 Notificación de PAGO:\n'+JSON.stringify(data) ;
+    document.querySelector('.texto-enviando').innerHTML =
+    '📨 Notificación de PAGO:<br>' +
+    `<textarea readonly style="width:100%;height:150px;white-space:pre;">${JSON.stringify(data, null, 2)}</textarea>`;
     const modal = new bootstrap.Modal(document.getElementById('modalEnviando'));
     modal.show();
   });
