@@ -5,11 +5,11 @@ const fetch = require('node-fetch');
 const multer = require('multer');
 const upload = multer();
 
-const BASE_URL = 'https://gw.api.qa2.tbk.cl/transbank/clientes/api/v1/posi';
-const CLIENT_ID = '003f624fe6c7c7492eaa55970d860de5';
+//const BASE_URL = 'https://gw.api.qa2.tbk.cl/transbank/clientes/api/v1/posi';
+//const CLIENT_ID = '003f624fe6c7c7492eaa55970d860de5';
 
-//const BASE_URL = 'https://api.transbank.cl/transbank/clientes/api/v1/posi';
-//const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
+const BASE_URL = 'https://api.transbank.cl/transbank/clientes/api/v1/posi';
+const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
 
 //const BASE_URL = 'http://localhost:6469/api/v1/posi';
 //const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
