@@ -6,16 +6,33 @@
     console.log('Notificación:', data);
     const body = document.querySelector('.texto-enviando');
     const notif = data?.data?.notification || {};
-     const contenido = `
-        "terminalID": "${notif.terminalID}",
-        "monto": "${notif.monto}",
-        "fechaHoraTransaccion": "${notif.fechaTransaccion} ${notif.horaTransaccion}",
-        "ultimos4DigitosTarjeta": "${notif.ultimos4DigitosTarjeta}"
-      `;
+    const tabla = `
+  <table class="table table-bordered table-sm mb-0">
+    <tbody>
+      <tr>
+        <th class="text-start">Terminal</th>
+        <td class="text-start">${notif.terminalID}</td>
+      </tr>
+      <tr>
+        <th class="text-start">Monto</th>
+        <td class="text-start">${notif.monto}</td>
+      </tr>
+      <tr>
+        <th class="text-start">Fecha</th>
+        <td class="text-start">${notif.fechaTransaccion} ${notif.horaTransaccion}</td>
+      </tr>
+      <tr>
+        <th class="text-start">Tarjeta</th>
+        <td class="text-start">${notif.ultimos4DigitosTarjeta}</td>
+      </tr>
+    </tbody>
+  </table>
+`;
+
 
     body.innerHTML ='📨 Notificación de PAGO:<br>'+
     `<pre class="form-control font-monospace bg-light"
-          style="white-space:pre;font-size:0.85rem;padding:0.5rem;">${contenido}</pre>`;
+          style="white-space:pre;font-size:0.85rem;padding:0.5rem;">${tabla}</pre>`;
     bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEnviando')).show();
   });
 
