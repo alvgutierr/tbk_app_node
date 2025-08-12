@@ -13,10 +13,9 @@
         "ultimos4DigitosTarjeta": "${notif.ultimos4DigitosTarjeta}"
       `;
 
-    body.innerHTML =
-      '📨 Notificación de PAGO:<br>' +
-      `<textarea readonly class="form-control font-monospace" rows="8"
-                 style="white-space:pre;font-size:0.85rem;">${contenido}</textarea>`;
+    body.innerHTML ='📨 Notificación de PAGO:<br>'+
+    `<pre class="form-control font-monospace bg-light"
+          style="white-space:pre;font-size:0.85rem;padding:0.5rem;">${contenido}</pre>`;
     bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEnviando')).show();
   });
 
