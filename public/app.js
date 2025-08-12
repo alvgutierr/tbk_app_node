@@ -5,10 +5,18 @@
   socket.on('pago_notificacion', (data) => {
     console.log('Notificación:', data);
     const body = document.querySelector('.texto-enviando');
+    const notif = data?.data?.notification || {};
+     const contenido = `
+        "terminalID": "${notif.terminalID}",
+        "monto": "${notif.monto}",
+        "fechaHoraTransaccion": "${notif.fechaTransaccion} ${notif.horaTransaccion}",
+        "ultimos4DigitosTarjeta": "${notif.ultimos4DigitosTarjeta}"
+      `;
+
     body.innerHTML =
       '📨 Notificación de PAGO:<br>' +
       `<textarea readonly class="form-control font-monospace" rows="8"
-                 style="white-space:pre;font-size:0.85rem;">${JSON.stringify(data, null, 2)}</textarea>`;
+                 style="white-space:pre;font-size:0.85rem;">${contenido}</textarea>`;
     bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEnviando')).show();
   });
 
