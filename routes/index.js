@@ -14,7 +14,7 @@ const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
 //const BASE_URL = 'http://localhost:6469/api/v1/posi';
 //const CLIENT_ID = '7f2bf5f21e4748753aaec8e550ab6f44';
 
-const COMMERCE_CODE = "597001600134";
+const COMMERCE_CODE = "597030993500";
 //const URL_NOTIFY = "http://localhost:3000/api/notify";
 const URL_NOTIFY = "https://app-demo-xsbho.ondigitalocean.app/tbk-app-node/api/notify";
 
